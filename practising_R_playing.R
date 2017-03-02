@@ -84,6 +84,24 @@ boxplot(ombined, las = 2, names = c("4-MU", "Ctrl"))
 
 #boxplot specifying names of x , with colors for each and axis title labels 
 boxplot(ombined, las = 1, names = c("4-MU", "Ctrl"), col = c("royalblue2", "blue"), ylab = 'Vm (mV)', xlab = 'Treatment')
-=======
->>>>>>> e3e647e715852c4e6d8e1c43cd819a8d19aab247
 
+#ggplot playing 
+
+library(ggplot2)
+
+ggplot2::qplot(Fmu_firing[,1], Fmu_firing[,2], xlab= "time (ms)", ylab= "Vm  (mV)") + geom_line(color= "#3333CC") + geom_point(color= "#cc3399")
+
+ggplot2::qplot(Fmu_firing[,1], Fmu_firing[,2], xlab= "time (ms)", ylab= "Vm  (mV)")
+
+ggplot2::ggplot(data=Fmu_firing,aes(x= Time, y= mV)) + 
+  geom_line(color= "#3333CC")
+
+# Calculate slope and intercept of line of best fit
+coef(lm(mV ~ Time, data = Fmu_firing))
+
+#ggplot with line of best fit, using coefficients calculated and returned above step
+ggplot2::ggplot(data=Fmu_firing,aes(x= Time, y= mV)) + 
+  +   geom_line(color= "#3333CC") + geom_abline(intercept = -20, slope= 5.7e-6)
+
+# Calculate correlation coefficient
+with(Fmu_firing, cor(mV, Time, use = "everything", method = "pearson"))
